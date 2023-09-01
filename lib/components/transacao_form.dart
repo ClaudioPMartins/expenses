@@ -1,10 +1,23 @@
 import 'package:flutter/material.dart';
 
 class TransacaoForm extends StatelessWidget {
-  TransacaoForm({super.key});
-
   final tituloController = TextEditingController();
   final valorController = TextEditingController();
+
+  final void Function(String, double) quandoSubmeter;
+
+  TransacaoForm(this.quandoSubmeter, {super.key});
+
+  _submeterFormulario() {
+    final String titulo = tituloController.text;
+    final double valor = double.tryParse(valorController.text) ?? 0.0;
+
+    if (titulo.isEmpty || valor <= 0) {
+      return;
+    }
+
+    quandoSubmeter(titulo, valor);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,12 +29,16 @@ class TransacaoForm extends StatelessWidget {
           children: <Widget>[
             TextField(
               controller: tituloController,
+              onSubmitted: (value) => _submeterFormulario(),
               decoration: const InputDecoration(
                 labelText: 'Título',
               ),
             ),
             TextField(
+              keyboardType:
+                  const TextInputType.numberWithOptions(decimal: true),
               controller: valorController,
+              onSubmitted: (value) => _submeterFormulario(),
               decoration: const InputDecoration(
                 labelText: 'Valor',
               ),
@@ -30,16 +47,13 @@ class TransacaoForm extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 TextButton(
+                  onPressed: _submeterFormulario,
                   child: const Text(
                     'Nova transação',
                     style: TextStyle(
                       color: Colors.purple,
                     ),
                   ),
-                  onPressed: () {
-                    print(tituloController.text);
-                    print(valorController.text);
-                  },
                 ),
               ],
             ),
