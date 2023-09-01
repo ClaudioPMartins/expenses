@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 
-class TransacaoForm extends StatelessWidget {
-  final tituloController = TextEditingController();
-  final valorController = TextEditingController();
-
+class TransacaoForm extends StatefulWidget {
   final void Function(String, double) quandoSubmeter;
 
-  TransacaoForm(this.quandoSubmeter, {super.key});
+  const TransacaoForm(this.quandoSubmeter, {super.key});
+
+  @override
+  State<TransacaoForm> createState() => _TransacaoFormState();
+}
+
+class _TransacaoFormState extends State<TransacaoForm> {
+  final tituloController = TextEditingController();
+
+  final valorController = TextEditingController();
 
   _submeterFormulario() {
     final String titulo = tituloController.text;
@@ -16,7 +22,7 @@ class TransacaoForm extends StatelessWidget {
       return;
     }
 
-    quandoSubmeter(titulo, valor);
+    widget.quandoSubmeter(titulo, valor);
   }
 
   @override
