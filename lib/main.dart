@@ -1,17 +1,24 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:expenses/components/transacao_form.dart';
-
 import 'components/transacao_lista.dart';
 import 'models/transacao.dart';
 
-main() => runApp(const ExpensesApp());
+main() => runApp(ExpensesApp());
 
 class ExpensesApp extends StatelessWidget {
-  const ExpensesApp({Key? key}) : super(key: key);
+  ExpensesApp({Key? key}) : super(key: key);
+  final ThemeData tema = ThemeData();
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(home: MyHomePage());
+    return MaterialApp(
+      home: const MyHomePage(),
+      theme: tema.copyWith(
+          colorScheme: tema.colorScheme.copyWith(
+        primary: Colors.purple,
+        secondary: Colors.amber,
+      )),
+    );
   }
 }
 
@@ -49,6 +56,8 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _transacoes.add(novaTransacao);
     });
+
+    Navigator.of(context).pop();
   }
 
   _abrirTransacaoFormModal(BuildContext context) {
@@ -64,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.purple,
+        //backgroundColor: Colors.purple,
         title: const Text('Despesas Pessoais'),
         actions: [
           IconButton(
@@ -90,7 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _abrirTransacaoFormModal(context),
-        backgroundColor: Colors.purple,
+        // backgroundColor: Colors.purple,
         child: const Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
